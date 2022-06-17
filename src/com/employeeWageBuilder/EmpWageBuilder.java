@@ -11,11 +11,15 @@ public class EmpWageBuilder {
         int empHours = 0;
         int empWage = 0;
         Random random = new Random();
-        int empCheck = random.nextInt(2);
+        int empCheck = random.nextInt(3);
 
         if(empCheck == IS_FUll_TIME) {
             System.out.println("Employee is Present.");
             empHours = 8;
+        }
+        else if(empCheck == 2){
+            System.out.println("Employee worked for half day.");
+            empHours = 4;
         }
         else {
             System.out.println("Employee is Absent.");
