@@ -28,6 +28,7 @@ public class EmpWageBuilder {
                     case 1:
                         System.out.printf("Day %d: Employee is Present for full day.", day).println();
                         empHours = 8;
+                        //printf(): This method belongs to the PrintStream class.
                         break;
                     case 2:
                         System.out.printf("Day %d: Employee worked for half day.", day).println();
