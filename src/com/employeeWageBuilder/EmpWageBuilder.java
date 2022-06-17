@@ -28,7 +28,6 @@ public class EmpWageBuilder {
                     case 1:
                         System.out.printf("Day %d: Employee is Present for full day.", day).println();
                         empHours = 8;
-
                         break;
                     case 2:
                         System.out.printf("Day %d: Employee worked for half day.", day).println();
@@ -40,7 +39,7 @@ public class EmpWageBuilder {
                         break;
                 }
                 empWage = empHours * EMP_RATE_PER_HOUR;
-                System.out.printf("Worked: %d hours, Earned: %d", empHours, empWage).println("\n");
+                System.out.printf("Worked: %d hours, Earned: $%d", empHours, empWage).println("\n");
                 totalWage += empWage;
                 maxWorkingHours += empHours; //Max Working Hours is 100, loop terminates if it is above 100.
             }
