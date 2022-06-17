@@ -1,4 +1,4 @@
-package com.employeeWage;
+package com.employeeWageBuilder;
 
 public class EmpWageGreetings {
     public static void main(String args[]) {
