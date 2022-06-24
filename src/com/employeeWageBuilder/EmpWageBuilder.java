@@ -1,5 +1,5 @@
 /*
-Refactor to use ArrayList instead of array.
+Store the Daily Wage along with the Total Wage
 
 The ArrayList class is a resizable array, which can be found in the java. util package.
 The difference between a built-in array and an ArrayList in Java, is that the size of an array cannot be modified (if you want to add or remove elements to/from an array, you have to create a new one).
@@ -12,6 +12,7 @@ Data abstraction is the process of hiding certain details and showing only essen
 package com.employeeWageBuilder;
 import java.util.Random; //importing Random function
 import java.util.ArrayList; //importing ArrayList class
+import java.util.HashMap; //Importing HashMap
 //implementing interface
 interface IEmpWageBuilder {
     public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs);
@@ -22,9 +23,11 @@ class EmpWageBuilder implements IEmpWageBuilder{
     // instance variables
     int noOfCompanies, index;
     ArrayList<CompanyEmpWage> companies; //ArrayList declaration
+    HashMap<String, Integer> fullMonthWage; //HashMap Declaration, String = Company name, Integer = Full month wage.
     //Constructor for the class EmpWageBuilder
     public EmpWageBuilder() {
-        companies = new ArrayList<>();
+        companies = new ArrayList<>(); //Creating Array list
+        fullMonthWage = new HashMap<>(); //Creating Hash Map
     }
     //Assigning to the array
     public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs) {
@@ -47,6 +50,7 @@ class EmpWageBuilder implements IEmpWageBuilder{
             totalWage += wage;
             System.out.printf("%2d   %5d   %9d   %12d\n", day, workingHrs, wage, totalWorkingHrs + workingHrs);
         }
+        fullMonthWage.put(companyEmpWage.COMPANY_NAME, totalWage); // insert an entry in the map. V put(Object key, Object value)
         return totalWage;
     }
     int generateEmployeeType() {
@@ -71,6 +75,13 @@ class EmpWageBuilder implements IEmpWageBuilder{
             System.out.println(company); //overriding the toString() method
         }
     }
+    void printTotalEmpWages(){
+        System.out.println("The Companies and the full Month wage details of the Employee:");
+        for (String companyName : fullMonthWage.keySet()) //It is used to return a set view of the keys contained in this map.
+        {
+            System.out.println(companyName + ": " + fullMonthWage.get(companyName)); //Get method to get the value of key value.
+        }
+    }
     //Starting of main method.
     public static void main(String args[]) {
         //Welcome message
@@ -79,6 +90,7 @@ class EmpWageBuilder implements IEmpWageBuilder{
         emp.addCompany("Bridgeabz", 20, 20, 100);
         emp.addCompany("Toyota", 30, 22, 120);
         emp.addCompany("TCS", 25, 25, 115);
-        emp.companyWage();
+        emp.companyWage(); // Daily Wage along with the Total Wage
+        emp.printTotalEmpWages(); // Total Wage of the month of all companies.
     }
 }
