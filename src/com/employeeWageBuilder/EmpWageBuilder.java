@@ -1,8 +1,8 @@
 /*
-Ability to manage Employee Wage of multiple companies - Note: Refactor to have one EmpWageBuilder to manage for Wage for multiple Company
-- Create CompanyEmpWage class and let EmpWageBuilder has array of many CompanyEmpWage Object.
+Refactor to use ArrayList instead of array.
 
-If we want to represent an object of a class as a String, then we can use the toString() method which returns a textual representation of the object.
+The ArrayList class is a resizable array, which can be found in the java. util package.
+The difference between a built-in array and an ArrayList in Java, is that the size of an array cannot be modified (if you want to add or remove elements to/from an array, you have to create a new one).
 
 An Interface in Java programming language is defined as an abstract type used to specify the behavior of a class.
 An interface in Java is a blueprint of a class. A Java interface contains static constants and abstract methods. The interface in Java is a mechanism to achieve abstraction.
@@ -11,6 +11,7 @@ Data abstraction is the process of hiding certain details and showing only essen
 */
 package com.employeeWageBuilder;
 import java.util.Random; //importing Random function
+import java.util.ArrayList; //importing ArrayList class
 //implementing interface
 interface IEmpWageBuilder {
     public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs);
@@ -20,19 +21,16 @@ interface IEmpWageBuilder {
 class EmpWageBuilder implements IEmpWageBuilder{
     // instance variables
     int noOfCompanies, index;
-    CompanyEmpWage[] companies; //declaring array
-
+    ArrayList<CompanyEmpWage> companies; //ArrayList declaration
     //Constructor for the class EmpWageBuilder
-    public EmpWageBuilder(int noOfCompanies) {
-        this.noOfCompanies = noOfCompanies;
-        companies = new CompanyEmpWage[noOfCompanies];
-        index = 0;
+    public EmpWageBuilder() {
+        companies = new ArrayList<>();
     }
     //Assigning to the array
     public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs) {
-        companies[index++] = new CompanyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
+        CompanyEmpWage company = new CompanyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
+        companies.add(company);
     }
-
     //Computation of company wage
     int companyWage(CompanyEmpWage companyEmpWage) {
         System.out.println("Computation of total wage of " + companyEmpWage.COMPANY_NAME + " employee:");
@@ -77,12 +75,10 @@ class EmpWageBuilder implements IEmpWageBuilder{
     public static void main(String args[]) {
         //Welcome message
         System.out.println("Welcome to Employee Wage Builder. \n");
-        EmpWageBuilder emp = new EmpWageBuilder(3); //creating an object and declaring number of companies = 3
+        EmpWageBuilder emp = new EmpWageBuilder(); //creating an object and declaring number of companies = 3
         emp.addCompany("Bridgeabz", 20, 20, 100);
         emp.addCompany("Toyota", 30, 22, 120);
         emp.addCompany("TCS", 25, 25, 115);
         emp.companyWage();
     }
 }
-
-
