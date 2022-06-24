@@ -1,72 +1,77 @@
 /*
-Ability to save the Total Wage for Each Company -
-Note: You can Create EmpWageBuilder for each Company
-- Use Instance Variable instead of function parameters
+Ability to manage Employee Wage of multiple companies - Note: Refactor to have one EmpWageBuilder to manage for Wage for multiple Company
+- Create CompanyEmpWage class and let EmpWageBuilder has array of many CompanyEmpWage Object.
+
+If we want to represent an object of a class as a String, then we can use the toString() method which returns a textual representation of the object.
 */
 package com.employeeWageBuilder;
 import java.util.Random; //importing Random function
 
 public class EmpWageBuilder {
-    //Declaring instance variables
-    private final String comp;
-    private final int EMP_RATE_PER_HOUR;
-    private final int workingDaysPerMonth;
-    private final int maxWorkingHours;
-    private int totalEmpWage;
+    // instance variables
+    int noOfCompanies, index;
+    CompanyEmpWage[] companies; //declaring array
+
     //Constructor for the class EmpWageBuilder
-    public EmpWageBuilder(String comp, int EMP_RATE_PER_HOUR, int workingDaysPerMonth, int maxWorkingHours){
-        this.comp = comp;
-        this.EMP_RATE_PER_HOUR = EMP_RATE_PER_HOUR;
-        this.workingDaysPerMonth = workingDaysPerMonth;
-        this.maxWorkingHours = maxWorkingHours;
+    public EmpWageBuilder(int noOfCompanies) {
+        this.noOfCompanies = noOfCompanies;
+        companies = new CompanyEmpWage[noOfCompanies];
+        index = 0;
+    }
+    //Assigning to the array
+    void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs) {
+        companies[index++] = new CompanyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
     }
     //Computation of company wage
-    public void companyWage(){
-        System.out.printf("%s Employee Wage details: ", comp).println();
-        //local variables
-        int empWage = 0, totalWage=0, workingHours = 0, empHours = 0;
-        Random random = new Random();
-        //Calculating the total wage per month using loops
-        for (int day = 1; day<=workingDaysPerMonth && workingHours<maxWorkingHours; day++) {
-            //Max Working hours should be 100.
-            int empCheck = random.nextInt(3);
-            switch (empCheck) {
-                case 1:
-                    System.out.printf("Day %d: Employee is Present for full day.", day).println();
-                    empHours = 8;
-                    break;
-                case 2:
-                    System.out.printf("Day %d: Employee worked for half day.", day).println();
-                    empHours = 4;
-                    break;
-                default:
-                    System.out.printf("Day %d: Employee is Absent.", day).println();
-                    empHours = 0;
-                    break;
-            }
-            empWage = empHours * EMP_RATE_PER_HOUR;
-            System.out.printf("Worked: %d hours, Earned: $%d", empHours, empWage).println("\n");
-            totalWage += empWage;
-            workingHours += empHours; //Max Working Hours is 100, loop terminates if it is above 100.
+    int companyWage(CompanyEmpWage companyEmpWage) {
+        System.out.println("Computation of total wage of " + companyEmpWage.COMPANY_NAME + " employee:");
+        System.out.println("------------------------------------------------------------");
+        System.out.printf("%1s   %5s   %5s   %5s\n", "Day", "Work_hrs", "Total_Wage", "Total_working_hrs");
+        System.out.println("------------------------------------------------------------");
+
+        int workingHrs, totalWage = 0;
+        for (int day = 1, totalWorkingHrs = 0; day <= companyEmpWage.MAX_WORKING_DAYS
+                && totalWorkingHrs <= companyEmpWage.MAX_WORKING_HRS; day++, totalWorkingHrs += workingHrs) {
+            int empType = generateEmployeeType(); //random value(0,1,2)
+            workingHrs = getWorkingHrs(empType); //Full time, Part time or Absent
+            int wage = workingHrs * companyEmpWage.WAGE_PER_HR;
+            totalWage += wage;
+            System.out.printf("%2d   %5d   %9d   %12d\n", day, workingHrs, wage, totalWorkingHrs + workingHrs);
         }
-        totalEmpWage = workingHours*EMP_RATE_PER_HOUR;
-        System.out.printf("The Total wage earned by %s for this month: " + "$ " + totalWage, comp).println();
-        System.out.printf("Total hours worked for %s: " + workingHours, comp).println();
-        System.out.println();
+        return totalWage;
     }
-    //overriding the toString() method
-    public String toString(){
-        return "Total wage earned for the Company " + comp + " is: " + totalEmpWage;
+    int generateEmployeeType() {
+        Random random = new Random();
+        return random.nextInt(3);
+    }
+    int getWorkingHrs(int empType) {
+        switch (empType) {
+            case 1:
+                return 8; //Full time
+            case 2:
+                return 4; //Part time
+            default:
+                return 0; //Absent
+        }
+    }
+    void companyWage() {
+        for (CompanyEmpWage company : companies) //for-each loop
+        {
+            int totalWage = companyWage(company);
+            company.setTotalEmployeeWage(totalWage);
+            System.out.println(company); //overriding the toString() method
+        }
     }
     //Starting of main method.
     public static void main(String args[]) {
         //Welcome message
         System.out.println("Welcome to Employee Wage Builder. \n");
-        EmpWageBuilder bridgelabz = new EmpWageBuilder("Bridgelabz", 20, 20, 100);
-        bridgelabz.companyWage();
-        EmpWageBuilder toyota = new EmpWageBuilder("Toyota", 30, 25, 120);
-        toyota.companyWage();
-        System.out.println(bridgelabz);
-        System.out.println(toyota);
+        EmpWageBuilder emp = new EmpWageBuilder(3); //creating an object and declaring number of companies = 3
+        emp.addCompany("Bridgeabz", 20, 20, 100);
+        emp.addCompany("Toyota", 30, 22, 120);
+        emp.addCompany("TCS", 25, 25, 115);
+        emp.companyWage();
     }
 }
+
+
