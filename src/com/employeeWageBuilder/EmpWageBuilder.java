@@ -1,12 +1,9 @@
 /*
 Store the Daily Wage along with the Total Wage
-
 The ArrayList class is a resizable array, which can be found in the java. util package.
 The difference between a built-in array and an ArrayList in Java, is that the size of an array cannot be modified (if you want to add or remove elements to/from an array, you have to create a new one).
-
 An Interface in Java programming language is defined as an abstract type used to specify the behavior of a class.
 An interface in Java is a blueprint of a class. A Java interface contains static constants and abstract methods. The interface in Java is a mechanism to achieve abstraction.
-
 Data abstraction is the process of hiding certain details and showing only essential information to the user.
 */
 package com.employeeWageBuilder;
@@ -33,6 +30,7 @@ class EmpWageBuilder implements IEmpWageBuilder{
     public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs) {
         CompanyEmpWage company = new CompanyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
         companies.add(company);
+        fullMonthWage.put(companyName,0);
     }
     //Computation of company wage
     int companyWage(CompanyEmpWage companyEmpWage) {
