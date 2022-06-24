@@ -3,11 +3,21 @@ Ability to manage Employee Wage of multiple companies - Note: Refactor to have o
 - Create CompanyEmpWage class and let EmpWageBuilder has array of many CompanyEmpWage Object.
 
 If we want to represent an object of a class as a String, then we can use the toString() method which returns a textual representation of the object.
+
+An Interface in Java programming language is defined as an abstract type used to specify the behavior of a class.
+An interface in Java is a blueprint of a class. A Java interface contains static constants and abstract methods. The interface in Java is a mechanism to achieve abstraction.
+
+Data abstraction is the process of hiding certain details and showing only essential information to the user.
 */
 package com.employeeWageBuilder;
 import java.util.Random; //importing Random function
+//implementing interface
+interface IEmpWageBuilder {
+    public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs);
+    public void companyWage();
+}
 
-public class EmpWageBuilder {
+class EmpWageBuilder implements IEmpWageBuilder{
     // instance variables
     int noOfCompanies, index;
     CompanyEmpWage[] companies; //declaring array
@@ -19,9 +29,10 @@ public class EmpWageBuilder {
         index = 0;
     }
     //Assigning to the array
-    void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs) {
+    public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs) {
         companies[index++] = new CompanyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
     }
+
     //Computation of company wage
     int companyWage(CompanyEmpWage companyEmpWage) {
         System.out.println("Computation of total wage of " + companyEmpWage.COMPANY_NAME + " employee:");
@@ -54,7 +65,7 @@ public class EmpWageBuilder {
                 return 0; //Absent
         }
     }
-    void companyWage() {
+    public void companyWage() {
         for (CompanyEmpWage company : companies) //for-each loop
         {
             int totalWage = companyWage(company);
