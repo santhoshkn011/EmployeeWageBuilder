@@ -95,7 +95,7 @@ class EmpWageBuilder implements IEmpWageBuilder{
         emp.addCompany("Toyota", 30, 22, 120);
         emp.addCompany("TCS", 25, 25, 115);
         emp.companyWage(); // Daily Wage along with the Total Wage
-        System.out.println("Type the Company Name");
+        System.out.print("Enter the Company Name: ");
         String comp = sc.nextLine();
         int totalWage = EmpWageBuilder.getTotalEmpWage(comp);
         System.out.println("The Total Wage for " + comp + " Company is " + totalWage + " for this month.");
